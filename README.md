@@ -6,35 +6,24 @@ Make sure you have Python 3.7 or later installed on your system.
 Clone this repository to your local machine using the following command:
 
 ```shell
+Clone projet:
 Copy code
-git clone https://github.com/your-username/terminal-games-collection.git
+git clone https://github.com/jackhudsonn/TerminalGames.git
+```
+
+```shell
 Navigate to the project directory:
-```
-
-```shell
 Copy code
-cd terminal-games-collection
-Install any required dependencies:
-```
-
-```shell
-Copy code
-pip install -r requirements.txt
+cd TerminalGames
 ```
 
 ## Usage <a name="usage"></a>
 To play any of the games in this collection, open your terminal and navigate to the project directory:
 
 ```shell
+Play TheGame:
 Copy code
-cd path/to/terminal-games-collection
-Then, run the game of your choice using the following command:
-```
-
-```shell
-Copy code
-python game_name.py
-Replace game_name.py with the name of the game you want to play (e.g., wordle.py, blackjack.py, tic_tac_toe.py, or rock_paper_scissors.py).
+python3 TheGame.py
 ```
 
 ## Games <a name="games"></a>
