@@ -73,8 +73,6 @@ class Wordle:
                 self.check[self.guess_count][i] = '✓'
 
     def play(self):
-        print(self.word)
-
         while self.loseContOrWin() == Const.CONTINUE:
             self.printBoard()
 
