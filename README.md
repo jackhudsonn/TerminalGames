@@ -23,7 +23,7 @@ To play any of the games in this collection, open your terminal and navigate to 
 ```shell
 Play TheGame:
 Copy code
-python3 menu.py
+python menu.py
 ```
 
 ## Collaberation <a name="collab"></a>
