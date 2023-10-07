@@ -1,3 +1,6 @@
+from Tools import *
+
+
 class TicTacToe:
     def __init__(self):
         blank = ' '
@@ -6,12 +9,13 @@ class TicTacToe:
                       [blank, blank, blank]]
 
     def displayCurrentState(self) -> None:
-        print("    1     2     3")
-        print(f"1   {self.board[0][0]}  |  {self.board[0][1]}  |  {self.board[0][2]}  ")
-        print("  +----+-----+----+")
-        print(f"2   {self.board[1][0]}  |  {self.board[1][1]}  |  {self.board[1][2]}  ")
-        print("  +----+-----+----+")
-        print(f"3   {self.board[2][0]}  |  {self.board[2][1]}  |  {self.board[2][2]}  ")
+        print("              col")
+        print("         1     2     3")
+        print(f"     1   {self.board[0][0]}  |  {self.board[0][1]}  |  {self.board[0][2]}  ")
+        print("       +----+-----+----+")
+        print(f"row  2   {self.board[1][0]}  |  {self.board[1][1]}  |  {self.board[1][2]}  ")
+        print("       +----+-----+----+")
+        print(f"     3   {self.board[2][0]}  |  {self.board[2][1]}  |  {self.board[2][2]}  ")
 
     def turn(self, x_turn) -> None:
         valid = False
@@ -82,8 +86,4 @@ class TicTacToe:
                 return
 
 
-if __name__ == "__main__":
-    answer = "y"
-    while answer.lower() == 'y':
-        TicTacToe().play()
-        answer = input("Would you like to play again? (y/n)")
+TicTacToe().play()

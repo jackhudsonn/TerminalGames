@@ -1,0 +1,22 @@
+        player_turn = True
+        user_choice = ""
+
+        print(f"DEALER SHOWS:\n{self.dealer_hand[0]}\n")
+        self.displayHand(self.player_hand, player_turn)
+        print()
+        player_total = self.getTotal(self.player_hand, player_turn)
+        print(f"YOUR TOTAL IS {player_total}\n")
+
+        if player_total != 21:
+            self.playerTurn(player_turn, player_total)
+
+        if user_choice == 's':
+            print()
+
+        player_turn = False
+        dealer_total = self.getTotal(self.dealer_hand, player_turn)
+
+        if player_total <= 21:
+            dealer_total = self.dealerTurn(player_turn, dealer_total)
+
+        self.displayWinner(player_total, dealer_total)

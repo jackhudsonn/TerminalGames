@@ -1,5 +1,4 @@
-import random
-import Constants as Const
+from Tools import *
 
 
 class Wordle:
@@ -40,16 +39,16 @@ class Wordle:
 
     def loseContOrWin(self) -> int:
         if self.check[self.guess_count - 1] == ['✓', '✓', '✓', '✓', '✓']:
-            return Const.WIN
+            return WIN
         elif self.guess_count == 6:
-            return Const.LOSE
+            return LOSE
         return 0
 
     def guess(self) -> str:
-        print("Input your five letter word:")
+        print("INPUT A FIVE-LETTER WORD:")
         word = input()
         while word not in self.word_bank:
-            print("Please enter a valid five letter word:")
+            print("PLEASE ENTER A VALID FIVE-LETTER WORD:")
             word = input()
 
         return word
@@ -73,7 +72,7 @@ class Wordle:
                 self.check[self.guess_count][i] = '✓'
 
     def play(self):
-        while self.loseContOrWin() == Const.CONTINUE:
+        while self.loseContOrWin() == CONTINUE:
             self.printBoard()
 
             guess = self.guess()
@@ -84,14 +83,10 @@ class Wordle:
             self.guess_count += 1
 
         self.printBoard()
-        if self.loseContOrWin() == Const.LOSE:
+        if self.loseContOrWin() == LOSE:
             print(f"YOU LOSE! THE WORD WAS: {self.word}")
-        elif self.loseContOrWin() == Const.WIN:
+        elif self.loseContOrWin() == WIN:
             print(f"YOU WIN! THE WORD WAS: {self.word}")
 
 
-if __name__ == "__main__":
-    answer = "y"
-    while answer.lower() == 'y':
-        Wordle().play()
-        answer = input("Would you like to play again? (y/n)\n")
+Wordle().play()
