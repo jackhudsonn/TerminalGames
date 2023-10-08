@@ -3,12 +3,19 @@ from Tools import *
 
 class Wordle:
     def __init__(self):
-        self.check = [[' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' ']]
-        self.grid = [['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'],
-                     ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'],
-                     ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*']]
+        self.check = []
+        for i in range(6):
+            temp_lst = []
+            for j in range(5):
+                temp_lst.append(' ')
+            self.check.append(temp_lst)
+
+        self.grid = []
+        for i in range(6):
+            temp_lst = []
+            for j in range(5):
+                temp_lst.append('*')
+            self.grid.append(temp_lst)
 
         self.letters_left = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
                              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -17,11 +24,10 @@ class Wordle:
 
         self.word_bank = open("WordleLibrary.txt").read().split()
         self.word = random.choice(self.word_bank)
-        self.word = "level"
 
     def printBoard(self) -> None:
+        print("jackhudsonn's Wordle")
         for i in range(6):
-            print()
             for j in range(5):
                 print("    ", end='')
                 if self.check[i][j] == ' ':
@@ -30,13 +36,12 @@ class Wordle:
                     print('\x1b[0;30;43m' + self.grid[i][j] + '\x1b[0m', end='')
                 elif self.check[i][j] == '✓':
                     print('\x1b[6;30;42m' + self.grid[i][j] + '\x1b[0m', end='')
-        print()
+            print()
 
-        print(f"LETTERS LEFT: ", end=' ')
+        print(f"\nLETTERS LEFT: ")
         for i in range(len(self.letters_left)):
             print(self.letters_left[i], end=' ')
-        print()
-        switchScreen()
+        print("\n")
 
     def loseContOrWin(self) -> int:
         if self.check[self.guess_count - 1] == ['✓', '✓', '✓', '✓', '✓']:
@@ -89,12 +94,18 @@ class Wordle:
                 self.check[self.guess_count][i] = '✓'
                 mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) + 1
 
-        for i in range(5):
             if mp_letters_correct.get(guess[i]) is None:
                 mp_letters_correct[guess[i]] = 0
             elif (mp_letters_correct.get(guess[i]) > 0 or False) and self.check[self.guess_count][i] == '-':
                 self.check[self.guess_count][i] = ' '
                 mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) - 1
+
+        # for i in range(5):
+        #     if mp_letters_correct.get(guess[i]) is None:
+        #         mp_letters_correct[guess[i]] = 0
+        #     elif (mp_letters_correct.get(guess[i]) > 0 or False) and self.check[self.guess_count][i] == '-':
+        #         self.check[self.guess_count][i] = ' '
+        #         mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) - 1
 
         for i in range(4, -1, -1):
             if self.check[self.guess_count][i] == '-':
@@ -104,6 +115,7 @@ class Wordle:
 
     def play(self):
         while self.loseContOrWin() == CONTINUE:
+            switchScreen()
             self.printBoard()
 
             guess = self.guess()
