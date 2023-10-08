@@ -3,13 +3,12 @@ from Tools import *
 
 class Wordle:
     def __init__(self):
-        empty = ' '
-        self.check = [[empty, empty, empty, empty, empty], [empty, empty, empty, empty, empty],
-                      [empty, empty, empty, empty, empty], [empty, empty, empty, empty, empty],
-                      [empty, empty, empty, empty, empty], [empty, empty, empty, empty, empty]]
-        self.grid = [[empty, empty, empty, empty, empty], [empty, empty, empty, empty, empty],
-                     [empty, empty, empty, empty, empty], [empty, empty, empty, empty, empty],
-                     [empty, empty, empty, empty, empty], [empty, empty, empty, empty, empty]]
+        self.check = [['`', '`', '`', '`', '`'], ['`', '`', '`', '`', '`'],
+                      ['`', '`', '`', '`', '`'], ['`', '`', '`', '`', '`'],
+                      ['`', '`', '`', '`', '`'], ['`', '`', '`', '`', '`']]
+        self.grid = [['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'],
+                     ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'],
+                     ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*']]
 
         self.letters_left = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
                              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -24,18 +23,15 @@ class Wordle:
             print()
             print(f"   {self.check[i][0]}     {self.check[i][1]}     {self.check[i][2]}     "
                   f"{self.check[i][3]}     {self.check[i][4]}")
-            print("+-----+-----+-----+-----+-----+")
-            print(f"|  {self.grid[i][0]}  |  {self.grid[i][1]}  |  {self.grid[i][2]}  |  "
-                  f"{self.grid[i][3]}  |  {self.grid[i][4]}  |")
-            print("+-----+-----+-----+-----+-----+")
+            print(f"   {self.grid[i][0]}     {self.grid[i][1]}     {self.grid[i][2]}     "
+                  f"{self.grid[i][3]}     {self.grid[i][4]}   ")
         print()
 
-        print(f"Letters Left: ", end=' ')
+        print(f"LETTERS LEFT: ", end=' ')
         for i in range(len(self.letters_left)):
             print(self.letters_left[i], end=' ')
-        print("")
-        print('-' * 28)
-        print("")
+        print()
+        switchScreen()
 
     def loseContOrWin(self) -> int:
         if self.check[self.guess_count - 1] == ['✓', '✓', '✓', '✓', '✓']:
@@ -61,15 +57,32 @@ class Wordle:
                     break
 
     def inputNewGuess(self, guess):
+        mp_guess = {}
+        mp_letters_correct = {}
         for i in range(5):
+            mp_letters_correct[self.word[i]] = 0
+            if guess[i] in mp_guess.keys():
+                mp_guess[guess[i]] = mp_guess.get(guess[i]) + 1
+            else:
+                mp_guess[guess[i]] = 1
+
             self.grid[self.guess_count][i] = guess[i]
 
         for i in range(5):
             for j in range(5):
-                if self.grid[self.guess_count][i] == self.word[j]:
+                if self.grid[self.guess_count][i] == self.word[j] and mp_guess.get(guess[i]) > 0:
                     self.check[self.guess_count][i] = '-'
+                    mp_guess[guess[i]] = mp_guess.get(guess[i]) - 1
             if self.grid[self.guess_count][i] == self.word[i]:
                 self.check[self.guess_count][i] = '✓'
+                mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) + 1
+
+        for i in range(5):
+            if mp_letters_correct.get(guess[i]) is None:
+                mp_letters_correct[guess[i]] = 0
+            if mp_letters_correct.get(guess[i]) > 0 and self.check[self.guess_count][i] == '-':
+                self.check[self.guess_count][i] = '*'
+                mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) - 1
 
     def play(self):
         while self.loseContOrWin() == CONTINUE:
