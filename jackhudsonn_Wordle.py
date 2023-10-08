@@ -3,9 +3,9 @@ from Tools import *
 
 class Wordle:
     def __init__(self):
-        self.check = [['`', '`', '`', '`', '`'], ['`', '`', '`', '`', '`'],
-                      ['`', '`', '`', '`', '`'], ['`', '`', '`', '`', '`'],
-                      ['`', '`', '`', '`', '`'], ['`', '`', '`', '`', '`']]
+        self.check = [[' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' ']]
         self.grid = [['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'],
                      ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*'],
                      ['*', '*', '*', '*', '*'], ['*', '*', '*', '*', '*']]
@@ -17,14 +17,19 @@ class Wordle:
 
         self.word_bank = open("WordleLibrary.txt").read().split()
         self.word = random.choice(self.word_bank)
+        self.word = "level"
 
     def printBoard(self) -> None:
         for i in range(6):
             print()
-            print(f"   {self.check[i][0]}     {self.check[i][1]}     {self.check[i][2]}     "
-                  f"{self.check[i][3]}     {self.check[i][4]}")
-            print(f"   {self.grid[i][0]}     {self.grid[i][1]}     {self.grid[i][2]}     "
-                  f"{self.grid[i][3]}     {self.grid[i][4]}   ")
+            for j in range(5):
+                print("    ", end='')
+                if self.check[i][j] == ' ':
+                    print(self.grid[i][j], end='')
+                elif self.check[i][j] == '-':
+                    print('\x1b[0;30;43m' + self.grid[i][j] + '\x1b[0m', end='')
+                elif self.check[i][j] == '✓':
+                    print('\x1b[6;30;42m' + self.grid[i][j] + '\x1b[0m', end='')
         print()
 
         print(f"LETTERS LEFT: ", end=' ')
@@ -59,20 +64,27 @@ class Wordle:
     def inputNewGuess(self, guess):
         mp_guess = {}
         mp_letters_correct = {}
+        mp_actual = {}
+
         for i in range(5):
-            mp_letters_correct[self.word[i]] = 0
             if guess[i] in mp_guess.keys():
                 mp_guess[guess[i]] = mp_guess.get(guess[i]) + 1
             else:
                 mp_guess[guess[i]] = 1
 
+            mp_letters_correct[self.word[i]] = 0
+
+            if self.word[i] in mp_actual.keys():
+                mp_actual[self.word[i]] = mp_actual.get(self.word[i]) + 1
+            else:
+                mp_actual[self.word[i]] = 1
+
             self.grid[self.guess_count][i] = guess[i]
 
         for i in range(5):
             for j in range(5):
-                if self.grid[self.guess_count][i] == self.word[j] and mp_guess.get(guess[i]) > 0:
+                if self.grid[self.guess_count][i] == self.word[j]:
                     self.check[self.guess_count][i] = '-'
-                    mp_guess[guess[i]] = mp_guess.get(guess[i]) - 1
             if self.grid[self.guess_count][i] == self.word[i]:
                 self.check[self.guess_count][i] = '✓'
                 mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) + 1
@@ -80,9 +92,15 @@ class Wordle:
         for i in range(5):
             if mp_letters_correct.get(guess[i]) is None:
                 mp_letters_correct[guess[i]] = 0
-            if mp_letters_correct.get(guess[i]) > 0 and self.check[self.guess_count][i] == '-':
-                self.check[self.guess_count][i] = '*'
+            elif (mp_letters_correct.get(guess[i]) > 0 or False) and self.check[self.guess_count][i] == '-':
+                self.check[self.guess_count][i] = ' '
                 mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) - 1
+
+        for i in range(4, -1, -1):
+            if self.check[self.guess_count][i] == '-':
+                if mp_actual.get(guess[i]) < mp_guess.get(guess[i]):
+                    self.check[self.guess_count][i] = ' '
+                    mp_guess[guess[i]] = mp_guess.get(guess[i]) - 1
 
     def play(self):
         while self.loseContOrWin() == CONTINUE:
