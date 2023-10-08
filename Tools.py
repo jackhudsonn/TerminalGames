@@ -1,6 +1,7 @@
 import random
 from getpass import getpass
 import time
+import os
 
 
 # Functions
@@ -14,8 +15,7 @@ def choice(possibilities, text, invalid_text='') -> str:
 
 
 def switchScreen() -> None:
-    print(28 * '-')
-    print()
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 # Constants
