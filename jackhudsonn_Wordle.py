@@ -24,6 +24,7 @@ class Wordle:
 
         self.word_bank = open("WordleLibrary.txt").read().split()
         self.word = random.choice(self.word_bank)
+        self.word = "hello"
 
     def printBoard(self) -> None:
         print("jackhudsonn's Wordle")
@@ -48,12 +49,14 @@ class Wordle:
             return WIN
         elif self.guess_count == 6:
             return LOSE
-        return 0
+        return CONTINUE
 
     def guess(self) -> str:
         print("INPUT A FIVE-LETTER WORD:")
         word = input()
         while word not in self.word_bank:
+            switchScreen()
+            self.printBoard()
             print("PLEASE ENTER A VALID FIVE-LETTER WORD:")
             word = input()
 
@@ -100,13 +103,6 @@ class Wordle:
                 self.check[self.guess_count][i] = ' '
                 mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) - 1
 
-        # for i in range(5):
-        #     if mp_letters_correct.get(guess[i]) is None:
-        #         mp_letters_correct[guess[i]] = 0
-        #     elif (mp_letters_correct.get(guess[i]) > 0 or False) and self.check[self.guess_count][i] == '-':
-        #         self.check[self.guess_count][i] = ' '
-        #         mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) - 1
-
         for i in range(4, -1, -1):
             if self.check[self.guess_count][i] == '-':
                 if mp_actual.get(guess[i]) < mp_guess.get(guess[i]):
@@ -127,9 +123,9 @@ class Wordle:
 
         self.printBoard()
         if self.loseContOrWin() == LOSE:
-            print(f"YOU LOSE! THE WORD WAS: {self.word}")
+            print(f"YOU LOSE! THE WORD WAS: {self.word}\n")
         elif self.loseContOrWin() == WIN:
-            print(f"YOU WIN! THE WORD WAS: {self.word}")
+            print(f"YOU WIN! THE WORD WAS: {self.word}\n")
 
 
 Wordle().play()
