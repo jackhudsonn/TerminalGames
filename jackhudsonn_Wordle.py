@@ -24,7 +24,6 @@ class Wordle:
 
         self.word_bank = open("WordleLibrary.txt").read().split()
         self.word = random.choice(self.word_bank)
-        self.word = "hello"
 
     def printBoard(self) -> None:
         print("jackhudsonn's Wordle")
