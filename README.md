@@ -25,9 +25,9 @@ python menu.py
 ```
 
 ## Collaberation <a name="collab"></a>
-This project is my first endeavor on GitHub, and I invite collaborative learners and experienced developers alike to join in. Here are the goals and visions for the future of this project:
+This project is my first real GitHub project! As a collaborative learner, I've decided that there is no better way to learn GitHub's toolbox then by starting my own open-source project that will only get better with time. I invite developers of all skill levels to join; below are the goals and visions for the future of this project:
 1. Skill Building: This project serves as a learning platform for both myself and contributors, helping to enhance our GitHub skills.
-2. Open Source Opportunity: It provides an opportunity for new GitHub users (including myself) to contribute to an open-source project, which can be a valuable addition to your resume.
+2. Open Source Opportunity: It provides an opportunity for new GitHub users (including myself) to contribute to an open-source project, which can be a valuable addition to your resume and project portfolio.
 3. Community Building: We aim to create a supportive community of both inexperienced and experienced programmers who can collaborate on debugging and improving the games.
 4. Showcase Innovation: As the project grows, it can become a platform to showcase creative and newly-invented terminal games to a wider community.
 5. Get Involved: Since there's no automated contribution process yet, feel free to private message jackhudsonn or email jwhudson@umass.edu if you're interested in contributing!
