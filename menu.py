@@ -5,8 +5,16 @@ import subprocess
 
 
 if __name__ == "__main__":
-    print("WELCOME TO THE TERMINAL GAME HUB!!!")
-    switchScreen()
+    print("  _____ _____ ____  __  __ ___ _   _    _    _ ")
+    print(" |_   _| ____|  _ \\|  \\/  |_ _| \\ | |  / \\  | |")
+    print("   | | |  _| | |_) | |\\/| || ||  \\| | / _ \\ | |")
+    print("   | | | |___|  _ <| |  | || || |\\  |/ ___ \\| |___")
+    print("   |_| |_____|_| \\_\\_|  |_|___|_| \\_/_/   \\_\\_____|")
+    print("   ____    _    __  __ _____     _   _ _   _ ____")
+    print("  / ___|  / \\  |  \\/  | ____|   | | | | | | | __ )")
+    print(" | |  _  / _ \\ | |\\/| |  _|     | |_| | | | |  _ \\")
+    print(" | |_| |/ ___ \\| |  | | |___    |  _  | |_| | |_) |")
+    print("  \\____/_/   \\_\\_|  |_|_____|   |_| |_|\\___/|____/\n")
 
     ext = 'n'
     while ext == 'n':
@@ -24,8 +32,6 @@ if __name__ == "__main__":
 
         import_module(file_name)
         modules.pop(file_name)
-
-        switchScreen()
 
         ext = choice(['y', 'n'], "WOULD YOU LIKE TO EXIT?(y/n)\n", "PLEASE ENTER A 'y' OR 'n':\n")
 
