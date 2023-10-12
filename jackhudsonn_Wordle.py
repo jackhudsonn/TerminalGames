@@ -4,18 +4,15 @@ from Tools import *
 class Wordle:
     def __init__(self):
         self.check = []
-        for i in range(6):
-            temp_lst = []
-            for j in range(5):
-                temp_lst.append(' ')
-            self.check.append(temp_lst)
-
         self.grid = []
         for i in range(6):
-            temp_lst = []
+            temp_lst1 = []
+            temp_lst2 = []
             for j in range(5):
-                temp_lst.append('*')
-            self.grid.append(temp_lst)
+                temp_lst1.append(' ')
+                temp_lst2.append('*')
+            self.check.append(temp_lst1)
+            self.grid.append(temp_lst2)
 
         self.letters_left = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
                              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -26,16 +23,22 @@ class Wordle:
         self.word = random.choice(self.word_bank)
 
     def printBoard(self) -> None:
-        print("jackhudsonn's Wordle")
+        switchScreen()
+        # print(" ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ _________ ____ ____ ____ ____ ____ ____")
+        # print("||j |||a |||c |||k |||h |||u |||d |||s |||o |||n |||' |||s |||       |||W |||o |||r |||d |||l |||e ||")
+        # print("||__|||__|||__|||__|||__|||__|||__|||__|||__|||__|||__|||__|||_______|||__|||__|||__|||__|||__|||__||")
+        # print("|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/_"
+        #       "_\\|/__\\|/__\\|/_______\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|")
+        print("    jackhudsonn's  Wordle")
         for i in range(6):
             for j in range(5):
                 print("    ", end='')
                 if self.check[i][j] == ' ':
                     print(self.grid[i][j], end='')
                 elif self.check[i][j] == '-':
-                    print('\x1b[0;30;43m' + self.grid[i][j] + '\x1b[0m', end='')
+                    print('\x1b[0;30;43m' + self.grid[i][j] + '\x1b[0m', end='')  # yellow
                 elif self.check[i][j] == '✓':
-                    print('\x1b[6;30;42m' + self.grid[i][j] + '\x1b[0m', end='')
+                    print('\x1b[6;30;42m' + self.grid[i][j] + '\x1b[0m', end='')  # green
             print()
 
         print(f"\nLETTERS LEFT: ")
@@ -69,8 +72,8 @@ class Wordle:
                     break
 
     def inputNewGuess(self, guess):
+        # guess + actual character hashmaps that will hold number of occurrences of particular character
         mp_guess = {}
-        mp_letters_correct = {}
         mp_actual = {}
 
         for i in range(5):
@@ -79,8 +82,6 @@ class Wordle:
             else:
                 mp_guess[guess[i]] = 1
 
-            mp_letters_correct[self.word[i]] = 0
-
             if self.word[i] in mp_actual.keys():
                 mp_actual[self.word[i]] = mp_actual.get(self.word[i]) + 1
             else:
@@ -88,20 +89,17 @@ class Wordle:
 
             self.grid[self.guess_count][i] = guess[i]
 
-        for i in range(5):
             for j in range(5):
+                # set all characters to a '-' (which makes char background yellow)
+                # if contained anywhere in the guessed word
                 if self.grid[self.guess_count][i] == self.word[j]:
                     self.check[self.guess_count][i] = '-'
+
+            # set guessed characters that are correct in placement to '✓' (which makes char background green)
             if self.grid[self.guess_count][i] == self.word[i]:
                 self.check[self.guess_count][i] = '✓'
-                mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) + 1
 
-            if mp_letters_correct.get(guess[i]) is None:
-                mp_letters_correct[guess[i]] = 0
-            elif (mp_letters_correct.get(guess[i]) > 0 or False) and self.check[self.guess_count][i] == '-':
-                self.check[self.guess_count][i] = ' '
-                mp_letters_correct[self.word[i]] = mp_letters_correct.get(self.word[i]) - 1
-
+        # take away over accounted for '-'s
         for i in range(4, -1, -1):
             if self.check[self.guess_count][i] == '-':
                 if mp_actual.get(guess[i]) < mp_guess.get(guess[i]):
