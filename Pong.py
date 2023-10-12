@@ -30,17 +30,17 @@ class Pong:
 
     def display(self):
         switchScreen()
-        print(f"{self.score[LEFT]}{' ' * (self.width - 1)}{self.score[RIGHT]}")
+        print(f"{self.score[LEFT]}{' ' * (self.width - 2)}{self.score[RIGHT]}")
         for y in range(self.height):
             for x in range(self.width):
                 if y == 0 or y == self.height - 1:
-                    print("=", end="")
+                    print('\033[105m' + ' ' + '\x1b[0m', end="")  # walls
                 elif y == self.ball_y and x == self.ball_x:
-                    print("O", end="")
+                    print('\033[105m' + ' ' + '\x1b[0m', end="")  # ball
                 elif y in range(self.paddle_left_y - 2, self.paddle_left_y + 3) and x == 1:
-                    print("|", end="")
+                    print('\033[102m' + ' ' + '\x1b[0m', end="")  # left paddle
                 elif y in range(self.paddle_right_y - 2, self.paddle_right_y + 3) and x == self.width - 2:
-                    print("|", end="")
+                    print('\033[101m' + ' ' + '\x1b[0m', end="")  # right paddle
                 else:
                     print(" ", end="")
             print()
