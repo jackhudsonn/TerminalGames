@@ -46,12 +46,14 @@ class TicTacToe:
 
     def winCheck(self) -> str:
         for i in range(3):
-            if self.board[i][0] == self.board[i][1] == self.board[i][2] or \
-               self.board[0][i] == self.board[1][i] == self.board[2][i]:
+            if (self.board[i][0] == self.board[i][1] == self.board[i][2]) or \
+                    (self.board[0][i] == self.board[1][i] == self.board[2][i]) and \
+                    (self.board[0][i] != ' '):
                 return self.board[i][0]
 
-        if self.board[0][0] == self.board[1][1] == self.board[2][2] or \
-           self.board[2][0] == self.board[1][1] == self.board[0][2]:
+        if (self.board[0][0] == self.board[1][1] == self.board[2][2]) or \
+                (self.board[2][0] == self.board[1][1] == self.board[0][2])and \
+                (self.board[1][1] != ' '):
             return self.board[1][1]
 
         return ' '
