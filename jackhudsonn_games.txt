@@ -1,5 +1,0 @@
-BlackJack
-Wordle
-RockPaperScissors
-TicTacToe
-Pong
