@@ -6,10 +6,23 @@ import keyboard
 
 
 # Functions
-def choice(possibilities, text, invalid_text='') -> str:
-    ret = input(text)
+def choice(possibilities, inquiry, invalid_text='', list_options=False, pre_list_text='', switch_on_fail=False) -> str:
+    if list_options:
+        print(pre_list_text)
+        for possibility in possibilities:
+            print(' ·' + possibility)
+
+    ret = input(inquiry)
 
     while ret not in possibilities:
+        if switch_on_fail:
+            switchScreen()
+
+        if list_options:
+            print(pre_list_text)
+            for possibility in possibilities:
+                print(' ·' + possibility)
+
         ret = input(invalid_text)
 
     return ret
@@ -28,6 +41,7 @@ def hideText(prompt):
 
 
 # Constants
-WIN = 1
-CONTINUE, TIE = 0, 0
+WIN, RIGHT = 1, 1
+CONTINUE, TIE, LEFT = 0, 0, 0
 LOSE = -1
+
