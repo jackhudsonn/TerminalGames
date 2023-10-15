@@ -1,4 +1,4 @@
-    from Tools import *
+from Tools import *
 from importlib import import_module
 from sys import modules
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
                               "TO CHECK IF THIS IS A REGISTERED USERNAME, CHECK 'users.txt': ",
                               switch_on_fail=True)
             switchScreen()
-            games = open(f"{username}_games.txt").read().split()
+            games = open(f"{username}/Games.txt").read().split()
             games.append('b')
             game = choice(games, f"GAME: ", "PLEASE RE-ENTER A VALID GAME OR PRESS 'b' TO GO BACK: ",
                           list_options=True,
@@ -39,12 +39,9 @@ if __name__ == "__main__":
                                                           f"THAT YOU WOULD LIKE TO PLAY OR PRESS 'b' TO GO BACK: ",
                           switch_on_fail=True)
 
-        file_name = username + '_' + game
-
         switchScreen()
-
-        import_module(file_name)
-        modules.pop(file_name)
+        import_module(f"{username}.{game}")
+        modules.pop(f"{username}.{game}")
 
         ext = choice(['y', 'n'], "WOULD YOU LIKE TO EXIT?(y/n)\n", "PLEASE ENTER A 'y' OR 'n':\n")
 
