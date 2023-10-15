@@ -118,7 +118,6 @@ class Wordle:
 
     def play(self):
         while self.loseContOrWin() == CONTINUE:
-            switchScreen()
             self.printBoard()
 
             guess = self.guess()
