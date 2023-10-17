@@ -43,7 +43,7 @@ if __name__ == "__main__":
         import_module(f"{username}.{game}")
         modules.pop(f"{username}.{game}")
 
-        ext = choice(['y', 'n'], "WOULD YOU LIKE TO EXIT?(y/n)\n", "PLEASE ENTER A 'y' OR 'n':\n")
+        ext = choice(['y', 'n'], "\nWOULD YOU LIKE TO EXIT OR PLAY ANOTHER GAME?(y/n)\n", "PLEASE ENTER A 'y' OR 'n':\n")
 
     switchScreen()
     print("GOOD-BYE!")
