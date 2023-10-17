@@ -63,13 +63,13 @@ class Wordle:
             while guess not in self.word_bank or guess in self.guessed_words:
                 switchScreen()
                 self.printBoard()
-                print("PLEASE ENTER A VALID AND UN-GUESSED {self.word_length}-LETTER WORD:")
+                print(f"PLEASE ENTER A VALID AND UN-GUESSED {self.word_length}-LETTER WORD:")
                 guess = input()
         else:
             while len(guess) != self.word_length or guess in self.guessed_words:
                 switchScreen()
                 self.printBoard()
-                print("PLEASE ENTER AN UN-GUESSED {self.word_length}-LETTER WORD:")
+                print(f"PLEASE ENTER AN UN-GUESSED {self.word_length}-LETTER WORD:")
                 guess = input()
 
         self.guessed_words.append(guess)
@@ -133,6 +133,17 @@ class Wordle:
         elif self.loseContOrWin() == WIN:
             print(f"YOU WIN! THE WORD WAS: {self.word}\n")
 
+guess_count = int(choice(['2', '3', '4', '5', '6', '7', '8', '9', '10'], "JACKHUDSONN'S  WORDLE\nHOW MANY GUESSES WOULD YOU LIKE?\nTYPE A NUMBER BETWEEN 2 and 10 (6 IF YOU WANT STANDARD WORDLE): ",
+                            "JACKHUDSONN'S  WORDLE\nPLEASE TYPE A NUMBER, OF GUESSES, BETWEEN 2 and 10: ", switch_on_fail=True))
+switchScreen()
 
-Wordle(5, 6, True).play()
+letter_count = int(choice(['2', '3', '4', '5', '6', '7'], "JACKHUDSONN'S  WORDLE\nWHAT WORD LENGTH, IN LETTERS, WOULD YOU LIKE?\nTYPE A NUMBER BETWEEN 2 and 7 (5 IF YOU WANT STANDARD WORDLE): ",
+                        "JACKHUDSONN'S  WORDLE\nPLEASE TYPE THE NUMBER OF LETTERS YOU WOULD LIKE BETWEEN 2 and 7: ", switch_on_fail=True))
+switchScreen()
+
+validate_word = choice(['y', 'n'], "WOULD YOU LIKE YOUR GUESSES TO BE VALIDTED/CHECKED IN THE WORDBANK?\nTYPE 'y' or 'n' ('y' IF YOU WANT STANDARD WORDLE): ",
+                        "JACKHUDSONN'S  WORDLE\nPLEASE TYPE 'y' or 'n': ", switch_on_fail=True)
+switchScreen()
+
+Wordle(letter_count, guess_count, validate_word == 'y').play()
 
