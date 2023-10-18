@@ -45,24 +45,15 @@ class BlackJack:
 
     def __init__(self):
         self.deck = self.Deck()
+
         self.dealer_hand = []
-        self.dealer_number_of_aces = 0
         self.player_hand = []
-        self.player_number_of_aces = 0
 
-        card = self.drawCard(self.dealer_hand, self.deck)
-        if card[:3] == "Ace":
-            self.dealer_number_of_aces += 1
-        card = self.drawCard(self.dealer_hand, self.deck)
-        if card[:3] == "Ace":
-            self.dealer_number_of_aces += 1
+        self.drawCard(self.dealer_hand, self.deck)
+        self.drawCard(self.dealer_hand, self.deck)
 
-        card = self.drawCard(self.player_hand, self.deck)
-        if card[:3] == "Ace":
-            self.player_number_of_aces += 1
-        card = self.drawCard(self.player_hand, self.deck)
-        if card[:3] == "Ace":
-            self.player_number_of_aces += 1
+        self.drawCard(self.player_hand, self.deck)
+        self.drawCard(self.player_hand, self.deck)
 
     def drawCard(self, hand, deck) -> str:
         card = random.choice(list(self.deck.getCards()))
@@ -71,15 +62,21 @@ class BlackJack:
 
         return card
 
-    def displayHand(self, hand, player_turn) -> None:
-        if player_turn:
-            name = "PLAYER"
-        else:
-            name = "DEALER"
+    def displayHand(self, player_turn, player_total: str, dealer_total: str) -> None:
+        print("PLAYER CARDS:                 DEALER CARDS:")
+        for i in range(max(len(self.player_hand), len(self.dealer_hand))):
+            if (player_turn and i != 0) or i >= len(self.dealer_hand):
+                print(self.player_hand[i])
+            elif i >= len(self.player_hand):
+                print(' ' * 30 + self.dealer_hand[i])
+            else:
+                print(self.player_hand[i] + (' ' * (30 - len(self.player_hand[i]))) + self.dealer_hand[i])
 
-        print(f"{name} CARDS:")
-        for card in hand:
-            print(card)
+        print()
+        print(f"PLAYER TOTAL IS {player_total}", end='')
+        if len(player_total) == 1:
+            print(" ", end='')
+        print(f"{' ' * 12}DEALER TOTAL IS {dealer_total}")
 
     def displayWinner(self, player_total, dealer_total):
         if player_total > 21:
@@ -96,20 +93,25 @@ class BlackJack:
 
     def hitOrStand(self) -> str:
         print("WOULD YOU LIKE TO HIT OR STAND? (h/s)")
-        choice = input().lower()
-        while choice != 'h' and choice != 's':
+        hit_or_stand = input().lower()
+        while hit_or_stand != 'h' and hit_or_stand != 's':
             print("PLEASE ENTER AN 'h' OR AN 's':")
-            choice = input()
-        return choice
+            hit_or_stand = input()
+        return hit_or_stand
 
-    def playerTurn(self, player_turn, player_total) -> int:
+    def playerTurn(self, player_turn, player_total, dealer_total) -> int:
         if player_turn:
+            wait(2)
+            print()
             user_choice = self.hitOrStand()
             while user_choice == 'h' and player_total < 21:
+                switchScreen()
+                print("           JACKHUDSONN BLACKJACK")
+                print("           ---------------------")
                 self.drawCard(self.player_hand, self.deck)
-                self.displayHand(self.player_hand, player_turn)
-                player_total = self.getTotal(self.player_hand, player_turn)
-                print(f"\nYOUR TOTAL IS {player_total}\n")
+                player_total = self.getTotal(self.player_hand)
+                self.displayHand(player_turn, str(player_total), dealer_total)
+                print()
                 if player_total < 21:
                     user_choice = self.hitOrStand()
         else:
@@ -117,36 +119,39 @@ class BlackJack:
 
         return player_total
 
-    def dealerTurn(self, player_turn, dealer_total) -> int:
+    def dealerTurn(self, player_turn, player_total, dealer_total) -> int:
         if not player_turn:
-            self.displayHand(self.dealer_hand, player_turn)
-            print(f"\nDEALER TOTAL IS {dealer_total}\n")
+            print("           JACKHUDSONN BLACKJACK")
+            print("           ---------------------")
+            self.displayHand(player_turn, str(player_total), str(dealer_total))
             while dealer_total < 17:
                 time.sleep(1)
                 print("DEALER HITS...\n")
-
                 time.sleep(3)
                 self.drawCard(self.dealer_hand, self.deck)
-
                 time.sleep(1)
-                self.displayHand(self.dealer_hand, player_turn)
-                dealer_total = self.getTotal(self.dealer_hand, player_turn)
-                print(f"\nDEALER TOTAL IS {dealer_total}\n")
+                switchScreen()
+                print("           JACKHUDSONN BLACKJACK")
+                print("           ---------------------")
+                dealer_total = self.getTotal(self.dealer_hand)
+                self.displayHand(player_turn, str(player_total), str(dealer_total))
         else:
             print("IT IS NOT THE DEALERS TURN")
 
         return dealer_total
 
-    def getTotal(self, hand, player_turn) -> int:
+    def getTotal(self, hand) -> int:
         total = 0
+        num_aces = 0
 
         for card in hand:
             total += self.deck.getRemovedCards().get(card)
-            if player_turn and self.player_number_of_aces > 0 and total > 21:
-                self.player_number_of_aces -= 1
-                total -= 10
-            elif (not player_turn) and self.dealer_number_of_aces > 0 and total > 21:
-                self.dealer_number_of_aces -= 1
+
+            if self.deck.getRemovedCards().get(card) == 11:
+                num_aces += 1
+
+            if num_aces > 0 and total > 21:
+                num_aces -= 1
                 total -= 10
 
         return total
@@ -155,26 +160,30 @@ class BlackJack:
         player_turn = True
         user_choice = ""
 
-        print(f"DEALER SHOWS:\n{self.dealer_hand[0]}\n")
-        self.displayHand(self.player_hand, player_turn)
-        print()
-        player_total = self.getTotal(self.player_hand, player_turn)
-        print(f"YOUR TOTAL IS {player_total}\n")
+        print("           JACKHUDSONN BLACKJACK")
+        print("           ---------------------")
+
+        player_total = self.getTotal(self.player_hand)
+        dealer_total = '?'
+
+        self.displayHand(player_turn, str(player_total), dealer_total)
 
         if player_total != 21:
-            player_total = self.playerTurn(player_turn, player_total)
+            player_total = self.playerTurn(player_turn, player_total, dealer_total)
             if player_total > 21:
                 print("PLAYER BUST, DEALER WINS!")
                 return
+
+        switchScreen()
 
         if user_choice == 's':
             print()
 
         player_turn = False
-        dealer_total = self.getTotal(self.dealer_hand, player_turn)
+        dealer_total = self.getTotal(self.dealer_hand)
 
         if player_total <= 21:
-            dealer_total = self.dealerTurn(player_turn, dealer_total)
+            dealer_total = self.dealerTurn(player_turn, player_total, dealer_total)
 
         self.displayWinner(player_total, dealer_total)
 
