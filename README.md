@@ -4,6 +4,7 @@ Welcome to the Terminal Games Collection! This Python and GitHub project offers 
 ## Installation <a name="installation"></a>
 Before you begin, please ensure that you have Python 3.7 or a later version installed on your system. To get started, follow these simple steps:
 Clone this repository to your local machine using the following command:
+
 ```shell
 Clone projet:
 Copy code
@@ -14,6 +15,12 @@ git clone https://github.com/jackhudsonn/TerminalGames.git
 Navigate to the project directory:
 Copy code
 cd TerminalGames
+```
+
+```shell
+You may need to install additional resources. Please read documentation before downloading packages:
+Copy code
+pip install package_name
 ```
 
 ## Usage <a name="usage"></a>
