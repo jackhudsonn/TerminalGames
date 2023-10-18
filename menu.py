@@ -19,8 +19,8 @@ def terminalGameHub() -> str:
 
 
 if __name__ == "__main__":
-    ext = 'n'
-    while ext == 'n':
+    cont = 'y'
+    while cont == 'y':
         username = ''
         game = 'b'
         while game == 'b':
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         import_module(f"{username}.{game}")
         modules.pop(f"{username}.{game}")
 
-        ext = choice(['y', 'n'], "\nWOULD YOU LIKE TO EXIT OR PLAY ANOTHER GAME?(y/n)\n", "PLEASE ENTER A 'y' OR 'n':\n")
+        cont = choice(['y', 'n'], "\nWOULD YOU LIKE TO PLAY ANOTHER GAME?(y/n)\n", "PLEASE ENTER A 'y' OR 'n':\n")
 
     switchScreen()
     print("GOOD-BYE!")
