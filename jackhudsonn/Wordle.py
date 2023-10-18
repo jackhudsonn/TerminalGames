@@ -129,9 +129,9 @@ class Wordle:
 
         self.printBoard()
         if self.loseContOrWin() == LOSE:
-            print(f"YOU LOSE! THE WORD WAS: {self.word}\n")
+            print(f"YOU LOSE! THE WORD WAS: {self.word}")
         elif self.loseContOrWin() == WIN:
-            print(f"YOU WIN! THE WORD WAS: {self.word}\n")
+            print(f"YOU WIN! THE WORD WAS: {self.word}")
 
 guess_count = int(choice(['2', '3', '4', '5', '6', '7', '8', '9', '10'], "JACKHUDSONN'S  WORDLE\nHOW MANY GUESSES WOULD YOU LIKE?\nTYPE A NUMBER BETWEEN 2 and 10 (6 IF YOU WANT STANDARD WORDLE): ",
                             "JACKHUDSONN'S  WORDLE\nPLEASE TYPE A NUMBER, OF GUESSES, BETWEEN 2 and 10: ", switch_on_fail=True))

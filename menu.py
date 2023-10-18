@@ -40,8 +40,11 @@ if __name__ == "__main__":
                           switch_on_fail=True)
 
         switchScreen()
-        import_module(f"{username}.{game}")
-        modules.pop(f"{username}.{game}")
+        try:
+            import_module(f"{username}.{game}")
+            modules.pop(f"{username}.{game}")
+        except:
+            print(terminalGameHub() + f"{game} BY {username} HAS CRASHED...")
 
         cont = choice(['y', 'n'], "\nWOULD YOU LIKE TO PLAY ANOTHER GAME?(y/n)\n", "PLEASE ENTER A 'y' OR 'n':\n")
 
