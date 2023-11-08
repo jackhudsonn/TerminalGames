@@ -18,13 +18,16 @@ class Wordle:
             self.check.append(temp_lst1)
             self.grid.append(temp_lst2)
 
-        self.letters_left = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        self.letters_left = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
         self.guess_count = 0
 
-        self.word_bank = open(f"jackhudsonn/WordleLibrary/{word_length}.txt").read().lower().split()
+        self.word_bank = open(f"jackhudsonn/WordleLibrary/{word_length}.txt").read().upper().split()
+        if word_length == 5:
+            self.word_bank = open("jackhudsonn/WordleLibrary/RealWordleWords.txt").read().upper().split()
         self.word = random.choice(self.word_bank)
+        self.word_bank = open(f"jackhudsonn/WordleLibrary/{word_length}.txt").read().upper().split()
 
         self.guessed_words = []
 
@@ -46,7 +49,7 @@ class Wordle:
         for i in range(len(self.letters_left)):
             if i % 7 == 0:
                 print()
-            print(self.letters_left[i], end=' ')
+            print(self.letters_left[i].upper(), end=' ')
         print("\n")
 
     def loseContOrWin(self) -> int:
@@ -58,19 +61,19 @@ class Wordle:
 
     def guess(self) -> str:
         print(f"INPUT A {self.word_length}-LETTER WORD:")
-        guess = input()
+        guess = input().upper()
         if self.validate_guesses:
             while guess not in self.word_bank or guess in self.guessed_words:
                 switchScreen()
                 self.printBoard()
                 print(f"PLEASE ENTER A VALID AND UN-GUESSED {self.word_length}-LETTER WORD:")
-                guess = input()
+                guess = input().upper()
         else:
             while len(guess) != self.word_length or guess in self.guessed_words:
                 switchScreen()
                 self.printBoard()
                 print(f"PLEASE ENTER AN UN-GUESSED {self.word_length}-LETTER WORD:")
-                guess = input()
+                guess = input().upper()
 
         self.guessed_words.append(guess)
         return guess
